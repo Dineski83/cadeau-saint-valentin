@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocol Spider-Man : Activation du Virement</title>
+    <style>
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            transition: background-color 1s ease;
+        }
+        h1 { color: #E62429; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 450px;
+            width: 100%;
+        }
+        .step { margin-bottom: 25px; text-align: left; }
+        label { font-weight: bold; display: block; margin-bottom: 8px; color: #204B96; }
+        input {
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        input:focus { border-color: #E62429; outline: none; background: #fffcfc; }
+        button {
+            padding: 15px 30px;
+            background-color: #204B96;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        button:hover { background-color: #E62429; transform: translateY(-2px); }
+        .hidden { display: none; }
+        .indice { color: #888; font-size: 0.85em; margin-top: 5px; font-style: italic; }
+        .spidey-img { width: 100%; border-radius: 15px; margin-top: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .success-box { 
+            background:#f0f9ff; 
+            padding:20px; 
+            border-radius:15px; 
+            border:2px dashed #204B96; 
+            margin-top:20px;
+            animation: bounce 1s infinite alternate;
+        }
+        @keyframes bounce {
+            from { transform: scale(1); }
+            to { transform: scale(1.02); }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="victorySound">
+        <source src="https://www.myinstants.com/media/sounds/ff7-victory-fanfare.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="quizScreen" class="container">
+        <h1>🕷️ Spider-Virement</h1>
+        <p>Prouve que tu as bien suivi le diaporama !</p>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+        <div class="step">
+            <label>1. Notre date de "liaison d'âmes" ?</label>
+            <input type="text" id="ans1" placeholder="JJ/MM/AAAA">
+            <p class="indice">Indice : Chasse aux chocolats...</p>
+        </div>
+
+        <div class="step">
+            <label>2. L'ennemi juré de ton estomac ?</label>
+            <input type="text" id="ans2" placeholder="La saucisse de...">
+        </div>
+
+        <div class="step">
+            <label>3. Durée de ton mode "Lumbago" ?</label>
+            <input type="text" id="ans3" placeholder="Ex: 1 semaine, 1 mois...">
+        </div>
+
+        <button onclick="validerQuiz()">DÉCRYPTER LE CADEAU ⚡</button>
+        <p id="errorMsg" style="color:#E62429; display:none; margin-top:15px; font-weight:bold;">⚠️ ERREUR : Tu n'as pas assez été attentif, mon Coeur ! Réessaie.</p>
+    </div>
+
+    <div id="successScreen" class="container hidden">
+        <h1>✅ ACCÈS ACCORDÉ</h1>
+        <h3>Félicitations, mon Bras Cassé !</h3>
+        
+        <div class="success-box">
+            <h2 style="color:#204B96; margin:0;">VIREMENT DÉBLOQUÉ ! 💸</h2>
+            <p style="margin:10px 0;">Fonce sur ton compte, <strong>Craspouille</strong> !</p>
+            <p style="font-size: 0.9em;">Objectif : <strong>Spider-Man sur Steam</strong></p>
+        </div>
+        
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExemE5aHM4YWxydHp2cmx3eDAyZHMzZmYwN3Q1dXh4cjVpejh6YzM0OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/8zYunr3Hg8XPq/giphy.gif" class="spidey-img">
+        
+        <p style="margin-top:25px; line-height: 1.5;">
+            Joyeuse Saint-Valentin ❤️<br>
+            Merci d'être la chips la plus croustillante du paquet.<br>
+            <strong>Je t'aime très fort !</strong>
+        </p>
+    </div>
+
+    <script>
+        function validerQuiz() {
+            var r1 = document.getElementById("ans1").value.trim();
+            var r2 = document.getElementById("ans2").value.toLowerCase();
+            var r3 = document.getElementById("ans3").value.toLowerCase();
+            
+            var check1 = (r1 === "20/04/2025");
+            var check2 = (r2.includes("toulouse"));
+            var check3 = (r3.includes("1 mois") || r3.includes("un mois"));
+
+            if (check1 && check2 && check3) {
+                // Jouer le son
+                var audio = document.getElementById("victorySound");
+                audio.play();
+
+                // Afficher le succès
+                document.getElementById("quizScreen").classList.add("hidden");
+                document.getElementById("successScreen").classList.remove("hidden");
+                document.body.style.backgroundColor = "#e8f5e9"; // Vert très clair
+            } else {
+                document.getElementById("errorMsg").style.display = "block";
+                const container = document.querySelector('.container');
+                container.style.transform = "translateX(10px)";
+                setTimeout(() => container.style.transform = "translateX(-10px)", 50);
+                setTimeout(() => container.style.transform = "translateX(0)", 100);
+            }
+        }
+    </script>
+
+</body>
+</html>
